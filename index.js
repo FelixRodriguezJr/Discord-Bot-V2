@@ -8,10 +8,10 @@ const prefix = "";
 
 const client = new Client({ intents: [GatewayIntentBits.Guilds, GatewayIntentBits.GuildMessages, GatewayIntentBits.MessageContent] });
 
+
 client.on("ready", () => {
     console.log("Bot is online!");
     client.user.setActivity(`Doing Something`, { type: "WATCHING" });
-
 })
 
 const xkcd = async (message) => {
@@ -33,10 +33,10 @@ const bored = async (message) => {
     data = await response.json();
     const quote = data.activity;
     const link = data.link;
-    if(data.link.length > 0){
+    if (data.link.length > 0) {
         message.channel.send(quote);
         message.channel.send(link);
-    }else{
+    } else {
         message.channel.send(quote);
     }
 }
@@ -46,14 +46,14 @@ const anime = async (message) => {
 
     data = await response.json();
     let name = data.data.title_english;
-    if(!name) name = data.data.title;
+    if (!name) name = data.data.title;
     const link = data.data.url;
     const trailer = data.data.trailer.url;
-    if(trailer){
+    if (trailer) {
         message.channel.send(`**${name}**`);
         message.channel.send(link);
         message.channel.send(trailer);
-    }else{
+    } else {
         message.channel.send(`**${name}**`);
         message.channel.send(link);
     }
@@ -64,7 +64,7 @@ const manga = async (message) => {
 
     data = await response.json();
     let name = data.data.title_english;
-    if(!name) name = data.data.title;
+    if (!name) name = data.data.title;
     const link = data.data.url;
 
     message.channel.send(`**${name}**`);
@@ -73,22 +73,22 @@ const manga = async (message) => {
 
 const quotes = async (message) => {
     response = await fetch('https://zenquotes.io/api/random')
-    data = await response.json();           
-    const quote = data[0].q + " - " + data[0].a;              
+    data = await response.json();
+    const quote = data[0].q + " - " + data[0].a;
     message.channel.send(quote);
 }
 
 const getQuotes = async () => {
     response = await fetch('https://zenquotes.io/api/random')
-    data = await response.json();           
-    const quote = data[0].q + " - " + data[0].a;              
+    data = await response.json();
+    const quote = data[0].q + " - " + data[0].a;
     const channel = client.channels.cache.get('1077310996495990875');
     channel.send(quote);
 }
 
 const jeopardy = async (message) => {
     response = await fetch('http://jservice.io/api/random')
-    data = await response.json();           
+    data = await response.json();
     const difficulty = data[0].value;
     const answer = data[0].answer;
     const question = data[0].question;
@@ -100,9 +100,16 @@ const jeopardy = async (message) => {
 
 const cat = async (message) => {
     response = await fetch('https://api.thecatapi.com/v1/images/search')
-    data = await response.json();           
-    const quote = data[0].url;           
+    data = await response.json();
+    const quote = data[0].url;
     message.channel.send(quote);
+}
+
+const getCat = async (interaction) => {
+    response = await fetch('https://api.thecatapi.com/v1/images/search')
+    data = await response.json();
+    const quote = data[0].url;
+    interaction.reply(quote);
 }
 
 
@@ -191,10 +198,22 @@ client.on("messageCreate", (message) => {
         const quote = '!quote - Random quote from someone.\n';
         const cat = '!cat - Random cat.\n';
         const jeopardy = '!jeopardy - play some jeopardy.';
-        message.channel.send(phelix+xkcd+bored+manga+anime+quote+cat+jeopardy);
+        message.channel.send(phelix + xkcd + bored + manga + anime + quote + cat + jeopardy);
     }
 
 })
+
+client.on('interactionCreate', (interaction) => {
+    if(!interaction.isChatInputCommand()) return;
+
+    if(interaction.commandName === 'hey') {
+        interaction.reply('hey!');
+    }
+
+    if(interaction.commandName === 'cat') {
+        getCat(interaction);
+    }
+}) 
 
 client.login(process.env.TOKEN);
 
