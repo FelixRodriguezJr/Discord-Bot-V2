@@ -3,12 +3,40 @@ require('dotenv').config();
 
 const commands = [
     {
-        name: 'hey',
-        description: 'Replies with hey!',
-    },
-    {
         name: 'cat',
         description: 'Random cat picture!',
+    },
+    // {
+    //     name: 'dog',
+    //     description: 'Random dog picture!',
+    // },
+    // {
+    //     name: 'Phelix',
+    //     description: 'Summons Phelix.',
+    // },
+    {
+        name: 'jeopardy',
+        description: 'Summons a random jeopardy question.',
+    },
+    {
+        name: 'anime',
+        description: 'Summons a random anime.',
+    },
+    {
+        name: 'bored',
+        description: 'Suggests an idea.',
+    },
+    {
+        name: 'manga',
+        description: 'Summons a random manga.',
+    },
+    {
+        name: 'quote',
+        description: 'Summons a random quote.',
+    },
+    {
+        name: 'xkcd',
+        description: 'pulls up random xkcd',
     },
 ];
 

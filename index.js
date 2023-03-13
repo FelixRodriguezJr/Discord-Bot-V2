@@ -4,15 +4,14 @@ require('dotenv').config();
 
 const { Client, GatewayIntentBits, EmbedBuilder, PermissionsBitField, Permissions, messageLink, quote } = require(`discord.js`);
 
-const prefix = "";
-
 const client = new Client({ intents: [GatewayIntentBits.Guilds, GatewayIntentBits.GuildMessages, GatewayIntentBits.MessageContent] });
 
 
 client.on("ready", () => {
     console.log("Bot is online!");
     client.user.setActivity(`Doing Something`, { type: "WATCHING" });
-})
+});
+
 
 const xkcd = async (message) => {
     response = await fetch('https://xkcd.com/info.0.json')
@@ -23,8 +22,22 @@ const xkcd = async (message) => {
     response = await fetch(`https://xkcd.com/${xkcd_comic_number}/info.0.json`)
     data = await response.json();
     const quote = data.img
-    //console.log(quote);
     message.channel.send(quote);
+}
+
+const getxkcd = async (interaction) => {
+    response = await fetch('https://xkcd.com/info.0.json')
+    data = await response.json();
+    const latest = data.num;
+    const xkcd_comic_number = Math.floor(1 + Math.random() * latest);
+
+    response = await fetch(`https://xkcd.com/${xkcd_comic_number}/info.0.json`)
+    data = await response.json();
+    const quote = data.img
+    interaction.reply({
+        content: `${quote}`,
+        ephemeral: true
+    });
 }
 
 const bored = async (message) => {
@@ -38,6 +51,25 @@ const bored = async (message) => {
         message.channel.send(link);
     } else {
         message.channel.send(quote);
+    }
+}
+
+const getBored = async (interaction) => {
+    response = await fetch('https://www.boredapi.com/api/activity')
+
+    data = await response.json();
+    const quote = data.activity;
+    const link = data.link;
+    if (data.link.length > 0) {
+        interaction.reply({
+            content: `${quote + `\n` + link}`,
+            ephemeral: true
+        });
+    } else {
+        interaction.reply({
+            content: `${quote}`,
+            ephemeral: true
+        });
     }
 }
 
@@ -59,6 +91,27 @@ const anime = async (message) => {
     }
 }
 
+const getAnime = async (interaction) => {
+    response = await fetch('https://api.jikan.moe/v4/random/anime')
+
+    data = await response.json();
+    let name = data.data.title_english;
+    if (!name) name = data.data.title;
+    const link = data.data.url;
+    const trailer = data.data.trailer.url;
+    if (trailer) {
+        interaction.reply({
+            content: `${`**` + name + `**\n` + link + `\n` + trailer}`,
+            ephemeral: true
+        });
+    } else {
+        interaction.reply({
+            content: `${`**` + name + `**\n` + link}`,
+            ephemeral: true
+        });
+    }
+}
+
 const manga = async (message) => {
     response = await fetch('https://api.jikan.moe/v4/random/manga')
 
@@ -71,6 +124,20 @@ const manga = async (message) => {
     message.channel.send(link);
 }
 
+const getManga = async (interaction) => {
+    response = await fetch('https://api.jikan.moe/v4/random/manga')
+
+    data = await response.json();
+    let name = data.data.title_english;
+    if (!name) name = data.data.title;
+    const link = data.data.url;
+
+    interaction.reply({
+        content: `${`**` + name + `**\n` + link}`,
+        ephemeral: true
+    });
+}
+
 const quotes = async (message) => {
     response = await fetch('https://zenquotes.io/api/random')
     data = await response.json();
@@ -78,12 +145,23 @@ const quotes = async (message) => {
     message.channel.send(quote);
 }
 
-const getQuotes = async () => {
+const autoQuotes = async () => {
     response = await fetch('https://zenquotes.io/api/random')
     data = await response.json();
     const quote = data[0].q + " - " + data[0].a;
     const channel = client.channels.cache.get('1077310996495990875');
     channel.send(quote);
+}
+
+const getQuotes = async (interaction) => {
+    response = await fetch('https://zenquotes.io/api/random')
+    data = await response.json();
+    const quote = data[0].q + " - " + data[0].a;
+
+    interaction.reply({
+        content: `${quote}`,
+        ephemeral: true
+    });
 }
 
 const jeopardy = async (message) => {
@@ -93,9 +171,28 @@ const jeopardy = async (message) => {
     const answer = data[0].answer;
     const question = data[0].question;
 
-    message.channel.send(`**Difficulty: ${difficulty}**\n`);
-    message.channel.send(`>>> **Question:** ${question}\n`);
-    message.channel.send(`**Answer:** ||${answer}||`);
+    quote1 = `**Difficulty: ${difficulty}**\n`;
+    quote2 = `>>> **Question:** ${question}\n`;
+    quote3 = `**Answer:** ||${answer}||`;
+
+    message.channel.send(quote1 + quote2 + quote3);
+}
+
+const getJeopardy = async (interaction) => {
+    response = await fetch('http://jservice.io/api/random')
+    data = await response.json();
+    const difficulty = data[0].value;
+    const answer = data[0].answer;
+    const question = data[0].question;
+
+    quote1 = `**Difficulty: ${difficulty}**\n`;
+    quote2 = `>>> **Question:** ${question}\n`;
+    quote3 = `**Answer:** ||${answer}||`;
+
+    interaction.reply({
+        content: `${quote1 + quote2 + quote3}`,
+        ephemeral: true
+    });
 }
 
 const cat = async (message) => {
@@ -109,7 +206,10 @@ const getCat = async (interaction) => {
     response = await fetch('https://api.thecatapi.com/v1/images/search')
     data = await response.json();
     const quote = data[0].url;
-    interaction.reply(quote);
+    interaction.reply({
+        content: `${quote}`,
+        ephemeral: true
+    });
 }
 
 
@@ -151,6 +251,12 @@ client.on("messageCreate", (message) => {
     if (message.content.toLocaleLowerCase().includes('game')) {
         message.channel.send("You lost the game.");
     }
+
+    // if (message.content.toLocaleLowerCase.includes('suicide')) {
+    //     message.user.send(`It's going to be okay. 
+    //                   There are people that love you. 
+    //                   I'll keep working on this bot to provide more help in the future.`);
+    // }
 
     // //Shulk's lines
     // if (command === 'hey, fiora?' && message.author.bot) {
@@ -201,19 +307,21 @@ client.on("messageCreate", (message) => {
         message.channel.send(phelix + xkcd + bored + manga + anime + quote + cat + jeopardy);
     }
 
-})
+});
 
 client.on('interactionCreate', (interaction) => {
-    if(!interaction.isChatInputCommand()) return;
+    if (!interaction.isChatInputCommand()) return;
 
-    if(interaction.commandName === 'hey') {
-        interaction.reply('hey!');
-    }
-
-    if(interaction.commandName === 'cat') {
-        getCat(interaction);
-    }
-}) 
+    if (interaction.commandName === 'cat') getCat(interaction);
+    //if (interaction.commandName === 'dog') getDog(interaction);
+    if (interaction.commandName === 'jeopardy') getJeopardy(interaction);
+    if (interaction.commandName === 'anime') getAnime(interaction);
+    if (interaction.commandName === 'bored') getBored(interaction);
+    if (interaction.commandName === 'manga') getManga(interaction);
+    if (interaction.commandName === 'quote') getQuotes(interaction);
+    //if (interaction.commandName === 'phelix') getPhelix(interaction);
+    if (interaction.commandName === 'xkcd') getxkcd(interaction);
+});
 
 client.login(process.env.TOKEN);
 
@@ -236,7 +344,7 @@ client.login(process.env.TOKEN);
 // });
 
 cron.schedule('0 11 15 * * * *', () => {
-    getQuotes();
+    autoQuotes();
 });
 
 // cron.schedule('0 0 11 * * * 7', () => {
