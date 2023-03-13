@@ -240,7 +240,7 @@ client.on("messageCreate", (message) => {
         message.channel.send(owo[Math.floor(Math.random() * owo.length)]);
     }
 
-    if (message.content.toLocaleLowerCase().includes('yiff')) {
+    if (message.content.toLocaleLowerCase().includes('rock')) {
         message.channel.send("https://tenor.com/view/the-rock-gif-25266750");
     }
 
@@ -299,18 +299,6 @@ client.on('interactionCreate', (interaction) => {
 
 client.login(process.env.TOKEN);
 
-// setInterval(function(){ 
-//     const channel = client.channels.cache.get('911685287380389918');
-//     channel.send('content');
-// }, 3000); 
-
-
-// cron.schedule('0 * * * * *', () => {
-//     console.log('hello!')
-//     const channel = client.channels.cache.get('911685287380389918');
-//     channel.send('content');
-// });
-
 // cron.schedule('0 0 11 * * * 0', () => {
 //     //console.log('hello!')
 //     const channel = client.channels.cache.get('1077310750500061184');
@@ -325,12 +313,6 @@ cron.schedule('0 11 15 * * * *', () => {
 //     console.log('hello!')
 //     const channel = client.channels.cache.get('1077310750500061184');
 //     channel.send('Time to wake up!');
-// });
-
-// cron.schedule('0 0 11 * * * 5', () => {
-//     console.log('hello!')
-//     const channel = client.channels.cache.get('911685287380389918');
-//     channel.send('Testing!');
 // });
 
 // https://www.boredapi.com/documentation
