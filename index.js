@@ -240,10 +240,6 @@ client.on("messageCreate", (message) => {
         message.channel.send(owo[Math.floor(Math.random() * owo.length)]);
     }
 
-    if (command === '!xkcd') {
-        xkcd(message);
-    }
-
     if (message.content.toLocaleLowerCase().includes('yiff')) {
         message.channel.send("https://tenor.com/view/the-rock-gif-25266750");
     }
@@ -251,12 +247,6 @@ client.on("messageCreate", (message) => {
     if (message.content.toLocaleLowerCase().includes('game')) {
         message.channel.send("You lost the game.");
     }
-
-    // if (message.content.toLocaleLowerCase.includes('suicide')) {
-    //     message.user.send(`It's going to be okay. 
-    //                   There are people that love you. 
-    //                   I'll keep working on this bot to provide more help in the future.`);
-    // }
 
     // //Shulk's lines
     // if (command === 'hey, fiora?' && message.author.bot) {
@@ -271,29 +261,13 @@ client.on("messageCreate", (message) => {
     //     }, 6000); 
     // }
 
-    if (command === '!bored') {
-        bored(message);
-    }
-
-    if (command === '!anime') {
-        anime(message);
-    }
-
-    if (command === '!manga') {
-        manga(message);
-    }
-
-    if (command === '!quote') {
-        quotes(message);
-    }
-
-    if (command === '!jeopardy') {
-        jeopardy(message);
-    }
-
-    if (command === '!cat') {
-        cat(message);
-    }
+    if (command === '!xkcd') xkcd(message);
+    if (command === '!bored') bored(message);
+    if (command === '!anime') anime(message);
+    if (command === '!manga') manga(message);
+    if (command === '!quote') quotes(message);
+    if (command === '!jeopardy') jeopardy(message);
+    if (command === '!cat') cat(message);
 
     if (command === '!commands') {
         const phelix = '!phelix - Summons random thing.\n';
