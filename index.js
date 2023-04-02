@@ -214,20 +214,12 @@ const getCat = async (interaction) => {
 
 
 client.on("messageCreate", (message) => {
-    if (/*!message.content.startsWith(prefix) ||*/ message.author === client.user) return;
-
-    // const args = message.content.slice(prefix.length).split(/ +/);
-    // const command = args.shift().toLocaleLowerCase();
+    if (message.author === client.user) return;
 
     const command = message.content.toLocaleLowerCase();
 
-    //message array
-    // const messageArray = message.content.split(" ");
-    // const argument = messageArray.slice(1);
-    // const cmd = messageArray[0];
-
     //Commands
-    const owo = ["https://d.furaffinity.net/art/maefeline/1643916932/1643916932.maefeline_phelix_icon.jpg",
+    const phelixList = ["https://d.furaffinity.net/art/maefeline/1643916932/1643916932.maefeline_phelix_icon.jpg",
         "https://d.furaffinity.net/art/maefeline/1631375951/1631299748.maefeline_phelix_ref.png",
         "https://www.twitch.tv/phelix_the_cat_",
         "https://www.youtube.com/watch?v=_AkgzVe91Kc",
@@ -237,7 +229,7 @@ client.on("messageCreate", (message) => {
         "https://en.wikipedia.org/wiki/1989_Loma_Prieta_earthquake"];
 
     if (command === '!phelix') {
-        message.channel.send(owo[Math.floor(Math.random() * owo.length)]);
+        message.channel.send(phelixList[Math.floor(Math.random() * phelixList.length)]);
     }
 
     if (message.content.toLocaleLowerCase().includes('yiff')) {
@@ -248,18 +240,80 @@ client.on("messageCreate", (message) => {
         message.channel.send("You lost the game.");
     }
 
-    // //Shulk's lines
-    // if (command === 'hey, fiora?' && message.author.bot) {
-    //     setTimeout(function(){ 
-    //         message.channel.send("Yes, Shulk?")
-    //     }, 5000); 
-    // }
+    // This part of the code is to keep my friends safe. If they ever need help. I'll be there for them.
+    const suicideKeywords = [
+        "suicide",
+        "kill myself",
+        "end my life",
+        "suicidal",
+        "self-harm",
+        "hopeless",
+        "worthless",
+        "depressed",
+        "anxious",
+        "lonely",
+        "isolate",
+        "helpless",
+        "pain",
+        "die",
+        "not living",
+        "no reason to live",
+        "lost",
+        "meaningless",
+        "empty",
+        "despair",
+        "goodbye",
+        "farewell",
+        "final",
+        "eternal rest",
+        "last breath",
+        "rest in peace",
+        "resting place",
+        "eternity",
+        "eternal sleep",
+        "eternal silence",
+        "eternal darkness"
+    ];
 
-    // if (command === 'do you like me?' && message.author.bot) {
-    //     setTimeout(function(){ 
-    //         message.channel.send("Why yes, silly!")
-    //     }, 6000); 
-    // }
+    count = 0;
+
+    for (const word of suicideKeywords) {
+        if (message.content.toLocaleLowerCase().includes(word)) {
+            count++;
+            if (count === 3) {
+                message.author.send('https://en.wikipedia.org/wiki/List_of_suicide_crisis_lines');
+                message.author.send('This is a list of hotlines to call if you ever find yourself in detress.');
+
+                setTimeout(() => {
+                    message.author.send('It\'s okay. You\'re still here. You can still have a happy tomorrow.');
+                }, 4000);
+
+                setTimeout(() => {
+                    message.author.send('You could lose everything, but that doesn\'t make you worthless.');
+                }, 8000);
+
+                setTimeout(() => {
+                    message.author.send('I still care about you, even if we don\'t know each other that well.');
+                }, 12000);
+
+                setTimeout(() => {
+                    message.author.send('The time we could spend together making memories. We can still have that.');
+                }, 16000);
+
+                setTimeout(() => {
+                    message.author.send('You can still have that with everyone. It\'s okay to be sad.');
+                }, 20000);
+
+                setTimeout(() => {
+                    message.author.send('Sooner or later, that happy day will come. Stay strong for me, for you, your friends, and family. :heart:');
+                }, 24000);
+
+                setTimeout(() => {
+                    message.author.send('https://youtube.com/watch?v=0d8R1u4vj1Q');
+                }, 28000);
+            }
+        }
+    }
 
     if (command === '!xkcd') xkcd(message);
     if (command === '!bored') bored(message);
@@ -299,39 +353,9 @@ client.on('interactionCreate', (interaction) => {
 
 client.login(process.env.TOKEN);
 
-// setInterval(function(){ 
-//     const channel = client.channels.cache.get('911685287380389918');
-//     channel.send('content');
-// }, 3000); 
-
-
-// cron.schedule('0 * * * * *', () => {
-//     console.log('hello!')
-//     const channel = client.channels.cache.get('911685287380389918');
-//     channel.send('content');
-// });
-
-// cron.schedule('0 0 11 * * * 0', () => {
-//     //console.log('hello!')
-//     const channel = client.channels.cache.get('1077310750500061184');
-//     channel.send('*Good Morning!* Let\'s chat in the Shelter for a bit.');
-// });
-
 cron.schedule('0 11 15 * * * *', () => {
     autoQuotes();
 });
-
-// cron.schedule('0 0 11 * * * 7', () => {
-//     console.log('hello!')
-//     const channel = client.channels.cache.get('1077310750500061184');
-//     channel.send('Time to wake up!');
-// });
-
-// cron.schedule('0 0 11 * * * 5', () => {
-//     console.log('hello!')
-//     const channel = client.channels.cache.get('911685287380389918');
-//     channel.send('Testing!');
-// });
 
 // https://www.boredapi.com/documentation
 // https://api.jikan.moe/v4/random/anime
