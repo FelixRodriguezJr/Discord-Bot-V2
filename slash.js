@@ -6,10 +6,10 @@ const commands = [
         name: 'cat',
         description: 'Random cat picture!',
     },
-    // {
-    //     name: 'dog',
-    //     description: 'Random dog picture!',
-    // },
+    {
+        name: 'dog',
+        description: 'Random dog picture!',
+    },
     // {
     //     name: 'Phelix',
     //     description: 'Summons Phelix.',
@@ -36,7 +36,11 @@ const commands = [
     },
     {
         name: 'xkcd',
-        description: 'pulls up random xkcd',
+        description: 'pulls up random xkcd.',
+    },
+    {
+        name: 'sos',
+        description: 'pulls up list of suicide hotlines.',
     },
 ];
 

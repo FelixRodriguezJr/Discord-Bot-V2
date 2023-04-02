@@ -14,24 +14,24 @@ client.on("ready", () => {
 
 
 const xkcd = async (message) => {
-    response = await fetch('https://xkcd.com/info.0.json')
+    response = await fetch('https://xkcd.com/info.0.json');
     data = await response.json();
     const latest = data.num;
     const xkcd_comic_number = Math.floor(1 + Math.random() * latest);
 
-    response = await fetch(`https://xkcd.com/${xkcd_comic_number}/info.0.json`)
+    response = await fetch(`https://xkcd.com/${xkcd_comic_number}/info.0.json`);
     data = await response.json();
     const quote = data.img
     message.channel.send(quote);
 }
 
 const getxkcd = async (interaction) => {
-    response = await fetch('https://xkcd.com/info.0.json')
+    response = await fetch('https://xkcd.com/info.0.json');
     data = await response.json();
     const latest = data.num;
     const xkcd_comic_number = Math.floor(1 + Math.random() * latest);
 
-    response = await fetch(`https://xkcd.com/${xkcd_comic_number}/info.0.json`)
+    response = await fetch(`https://xkcd.com/${xkcd_comic_number}/info.0.json`);
     data = await response.json();
     const quote = data.img
     interaction.reply({
@@ -41,7 +41,7 @@ const getxkcd = async (interaction) => {
 }
 
 const bored = async (message) => {
-    response = await fetch('https://www.boredapi.com/api/activity')
+    response = await fetch('https://www.boredapi.com/api/activity');
 
     data = await response.json();
     const quote = data.activity;
@@ -55,7 +55,7 @@ const bored = async (message) => {
 }
 
 const getBored = async (interaction) => {
-    response = await fetch('https://www.boredapi.com/api/activity')
+    response = await fetch('https://www.boredapi.com/api/activity');
 
     data = await response.json();
     const quote = data.activity;
@@ -74,7 +74,7 @@ const getBored = async (interaction) => {
 }
 
 const anime = async (message) => {
-    response = await fetch('https://api.jikan.moe/v4/random/anime')
+    response = await fetch('https://api.jikan.moe/v4/random/anime');
 
     data = await response.json();
     let name = data.data.title_english;
@@ -113,7 +113,7 @@ const getAnime = async (interaction) => {
 }
 
 const manga = async (message) => {
-    response = await fetch('https://api.jikan.moe/v4/random/manga')
+    response = await fetch('https://api.jikan.moe/v4/random/manga');
 
     data = await response.json();
     let name = data.data.title_english;
@@ -125,7 +125,7 @@ const manga = async (message) => {
 }
 
 const getManga = async (interaction) => {
-    response = await fetch('https://api.jikan.moe/v4/random/manga')
+    response = await fetch('https://api.jikan.moe/v4/random/manga');
 
     data = await response.json();
     let name = data.data.title_english;
@@ -139,14 +139,14 @@ const getManga = async (interaction) => {
 }
 
 const quotes = async (message) => {
-    response = await fetch('https://zenquotes.io/api/random')
+    response = await fetch('https://zenquotes.io/api/random');
     data = await response.json();
     const quote = data[0].q + " - " + data[0].a;
     message.channel.send(quote);
 }
 
 const autoQuotes = async () => {
-    response = await fetch('https://zenquotes.io/api/random')
+    response = await fetch('https://zenquotes.io/api/random');
     data = await response.json();
     const quote = data[0].q + " - " + data[0].a;
     const channel = client.channels.cache.get('1077310996495990875');
@@ -154,7 +154,7 @@ const autoQuotes = async () => {
 }
 
 const getQuotes = async (interaction) => {
-    response = await fetch('https://zenquotes.io/api/random')
+    response = await fetch('https://zenquotes.io/api/random');
     data = await response.json();
     const quote = data[0].q + " - " + data[0].a;
 
@@ -165,7 +165,7 @@ const getQuotes = async (interaction) => {
 }
 
 const jeopardy = async (message) => {
-    response = await fetch('http://jservice.io/api/random')
+    response = await fetch('http://jservice.io/api/random');
     data = await response.json();
     const difficulty = data[0].value;
     const answer = data[0].answer;
@@ -179,7 +179,7 @@ const jeopardy = async (message) => {
 }
 
 const getJeopardy = async (interaction) => {
-    response = await fetch('http://jservice.io/api/random')
+    response = await fetch('http://jservice.io/api/random');
     data = await response.json();
     const difficulty = data[0].value;
     const answer = data[0].answer;
@@ -196,16 +196,41 @@ const getJeopardy = async (interaction) => {
 }
 
 const cat = async (message) => {
-    response = await fetch('https://api.thecatapi.com/v1/images/search')
+    response = await fetch('https://api.thecatapi.com/v1/images/search');
     data = await response.json();
     const quote = data[0].url;
     message.channel.send(quote);
 }
 
 const getCat = async (interaction) => {
-    response = await fetch('https://api.thecatapi.com/v1/images/search')
+    response = await fetch('https://api.thecatapi.com/v1/images/search');
     data = await response.json();
     const quote = data[0].url;
+    interaction.reply({
+        content: `${quote}`,
+        ephemeral: true
+    });
+}
+
+const dog = async (message) => {
+    response = await fetch('https://dog.ceo/api/breeds/image/random');
+    data = await response.json();
+    const quote = data.message;
+    message.channel.send(quote);
+}
+
+const getDog = async (interaction) => {
+    response = await fetch('https://dog.ceo/api/breeds/image/random');
+    data = await response.json();
+    const quote = data.message;
+    interaction.reply({
+        content: `${quote}`,
+        ephemeral: true
+    });
+}
+
+const getSOS = async (interaction) => {
+    const quote = 'https://en.wikipedia.org/wiki/List_of_suicide_crisis_lines';
     interaction.reply({
         content: `${quote}`,
         ephemeral: true
@@ -219,14 +244,15 @@ client.on("messageCreate", (message) => {
     const command = message.content.toLocaleLowerCase();
 
     //Commands
-    const phelixList = ["https://d.furaffinity.net/art/maefeline/1643916932/1643916932.maefeline_phelix_icon.jpg",
+    const phelixList = [
+        "https://d.furaffinity.net/art/maefeline/1643916932/1643916932.maefeline_phelix_icon.jpg",
         "https://d.furaffinity.net/art/maefeline/1631375951/1631299748.maefeline_phelix_ref.png",
         "https://www.twitch.tv/phelix_the_cat_",
         "https://www.youtube.com/watch?v=_AkgzVe91Kc",
         "https://www.nytimes.com/issue/todaysheadlines/2020/09/24/todays-headlines",
         "https://www.youtube.com/watch?v=6TOXw9zQCAc",
         "https://www.youtube.com/@phelixthecat",
-        "https://en.wikipedia.org/wiki/1989_Loma_Prieta_earthquake"];
+    ];
 
     if (command === '!phelix') {
         message.channel.send(phelixList[Math.floor(Math.random() * phelixList.length)]);
@@ -262,6 +288,12 @@ client.on("messageCreate", (message) => {
         "meaningless",
         "empty",
         "despair",
+        "unalive",
+        "murder",
+        "stab",
+        "stabbing",
+        "hang",
+        "anxiety",
         "goodbye",
         "farewell",
         "final",
@@ -275,8 +307,26 @@ client.on("messageCreate", (message) => {
         "eternal darkness"
     ];
 
-    count = 0;
+    // if (command === '!safety') {
+    //     var role = message.guild.roles.cache.find(role => role.name === 'saftey');
+    //     message.member.roles.add(role);
+    // }
 
+    // if (command === '!unsafety') {
+    //     var role = message.guild.roles.cache.find(role => role.name === 'saftey');
+    //     message.member.roles.remove(role);
+    // }
+
+    if (message.member.roles.cache.some(role => role.name === 'safety')) {
+        for (const word of suicideKeywords) {
+            if (message.content.toLocaleLowerCase().includes(word)) {
+                message.author.send('https://en.wikipedia.org/wiki/List_of_suicide_crisis_lines');
+                message.author.send('This is a list of hotlines to call if you ever find yourself in detress.');
+            }
+        }
+    }
+
+    count = 0;
     for (const word of suicideKeywords) {
         if (message.content.toLocaleLowerCase().includes(word)) {
             count++;
@@ -315,6 +365,7 @@ client.on("messageCreate", (message) => {
         }
     }
 
+    //Message commands that displays publicly
     if (command === '!xkcd') xkcd(message);
     if (command === '!bored') bored(message);
     if (command === '!anime') anime(message);
@@ -322,6 +373,7 @@ client.on("messageCreate", (message) => {
     if (command === '!quote') quotes(message);
     if (command === '!jeopardy') jeopardy(message);
     if (command === '!cat') cat(message);
+    if (command === '!dog') dog(message);
 
     if (command === '!commands') {
         const phelix = '!phelix - Summons random thing.\n';
@@ -331,24 +383,28 @@ client.on("messageCreate", (message) => {
         const anime = '!anime - Summons an anime.\n';
         const quote = '!quote - Random quote from someone.\n';
         const cat = '!cat - Random cat.\n';
+        const dog = '!dog - Random dog.\n';
+        //const saftey = '!safety - Activate safe mode.\n'
         const jeopardy = '!jeopardy - play some jeopardy.';
-        message.channel.send(phelix + xkcd + bored + manga + anime + quote + cat + jeopardy);
+        message.channel.send(
+            phelix + xkcd + bored + manga + anime + quote + cat + dog + jeopardy);
     }
 
 });
 
+//Interaction commands for private messages
 client.on('interactionCreate', (interaction) => {
     if (!interaction.isChatInputCommand()) return;
 
     if (interaction.commandName === 'cat') getCat(interaction);
-    //if (interaction.commandName === 'dog') getDog(interaction);
+    if (interaction.commandName === 'dog') getDog(interaction);
     if (interaction.commandName === 'jeopardy') getJeopardy(interaction);
     if (interaction.commandName === 'anime') getAnime(interaction);
     if (interaction.commandName === 'bored') getBored(interaction);
     if (interaction.commandName === 'manga') getManga(interaction);
     if (interaction.commandName === 'quote') getQuotes(interaction);
-    //if (interaction.commandName === 'phelix') getPhelix(interaction);
     if (interaction.commandName === 'xkcd') getxkcd(interaction);
+    if (interaction.commandName === 'sos') getSOS(interaction);
 });
 
 client.login(process.env.TOKEN);
