@@ -258,7 +258,7 @@ client.on("messageCreate", (message) => {
         message.channel.send(phelixList[Math.floor(Math.random() * phelixList.length)]);
     }
 
-    if (message.content.toLocaleLowerCase().includes('yiff')) {
+    if (message.content.toLocaleLowerCase().includes('rock')) {
         message.channel.send("https://tenor.com/view/the-rock-gif-25266750");
     }
 
