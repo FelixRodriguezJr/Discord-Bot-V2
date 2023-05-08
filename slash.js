@@ -46,6 +46,9 @@ const commands = [
 
 const rest = new REST({ version: '10'}).setToken(process.env.TOKEN);
 
+//Client is Bot
+//Guild is Server
+
 (async () => {
     try {
         console.log('registering slash commands...');
@@ -53,7 +56,18 @@ const rest = new REST({ version: '10'}).setToken(process.env.TOKEN);
             Routes.applicationGuildCommands(process.env.CLIENT_ID, process.env.GUILD_ID),
             { body: commands }
         )
-        console.log('slash registers success!')
+        console.log('slash registers success!\n')
+    } catch (error) {
+        console.log(error);
+    }
+
+    try {
+        console.log('registering slash commands...');
+        await rest.put(
+            Routes.applicationGuildCommands(process.env.CLIENT_ID, process.env.TEST_GUILD_ID),
+            { body: commands }
+        )
+        console.log('test slash registers success!\n')
     } catch (error) {
         console.log(error);
     }
