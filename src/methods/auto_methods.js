@@ -1,6 +1,6 @@
 const fetch = require('node-fetch');
 
-const quotes = async () => {
+const quotes = async (client) => {
     try {
         response = await fetch('https://zenquotes.io/api/random');
         if (!response.ok) throw new Error(`auto quotes network response not okay!`);
@@ -46,10 +46,25 @@ const specialSOS = (message) => {
     setTimeout(() => {
         message.author.send('https://youtube.com/watch?v=0d8R1u4vj1Q');
     }, 28000);
+}
 
+const cursed_quotes = async (client) => {
+    try {
+        response = await fetch('https://...');
+        if (!response.ok) throw new Error(`cursed quotes network response not okay!`);
+        data = await response.json();
+        //console.log(data);
+
+        const quote = data;
+        const channel = client.channels.cache.get('');
+        channel.send(quote);
+    } catch (error) {
+        console.log(`Error 2C: ${error.message}`);
+    }
 }
 
 module.exports = {
     quotes,
     specialSOS,
+    cursed_quotes,
 }

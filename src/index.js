@@ -4,14 +4,20 @@ const command_methods = require('./methods/command_methods');
 const slash_methods = require('./methods/slash_methods');
 const auto_methods = require('./methods/auto_methods');
 
+//Cloud port imports
+const express = require('express');
+const app = express();
+
+//Sentiment analyzer imports
 const fs = require('fs');
 const natural = require('natural');
 const tokenizer = new natural.WordTokenizer();
 
+//Discord bot import
 const { Client, GatewayIntentBits, EmbedBuilder, PermissionsBitField, Permissions, messageLink, quote } = require('discord.js');
-
 const client = new Client({ intents: [GatewayIntentBits.Guilds, GatewayIntentBits.GuildMessages, GatewayIntentBits.MessageContent] });
 
+//Data analysis for fine tuning sentiment alalyzer
 const logToCSV = (score) => {
   const csvString = `${new Date()},${score}\n`;
 
@@ -40,6 +46,7 @@ const trackSentiment = (messageHistory) => {
 client.on("messageCreate", async (message) => {
   if (message.author === client.user || message.author.bot) return;
 
+  // This part of the code is to keep my friends safe. If they ever need help. I'll be there for them.
   // Tracks sentiment for testing and implementing a threshhold to send a message to protect users from negative feelings.
   if (message.content.charAt(0) !== "!") {
     const tokens = tokenizer.tokenize(message.content);
@@ -81,9 +88,6 @@ client.on("messageCreate", async (message) => {
     message.channel.send("https://tenor.com/view/the-rock-gif-25266750");
   }
 
-  // This part of the code is to keep my friends safe. If they ever need help. I'll be there for them.
-  // Unused code goes here.
-
   // Message commands that displays publicly
   switch (command) {
     case '!phelix':
@@ -114,7 +118,6 @@ client.on("messageCreate", async (message) => {
       command_methods.dog(message);
       break;
     case '!commands':
-
       const commands = [
         { name: '!phelix', description: 'Summons random thing.' },
         { name: '!xkcd', description: 'Random xkcd comic.' },
@@ -125,7 +128,6 @@ client.on("messageCreate", async (message) => {
         { name: '!cat', description: 'Random cat.' },
         { name: '!dog', description: 'Random dog.' },
         { name: '!jeopardy', description: 'Play some jeopardy.' }
-        // {name: '!safety', description: 'Activate safe mode.'}
       ];
 
       let commandMessage = 'Available commands:\n';
@@ -175,5 +177,14 @@ client.on('interactionCreate', (interaction) => {
 client.login(process.env.TOKEN);
 
 cron.schedule('0 11 15 * * * *', () => {
-  auto_methods.quotes();
+  auto_methods.quotes(client);
+});
+
+// cron.schedule('0 21 18 * * * *', () => {
+//   auto_methods.cursed_quotes(client);
+// });
+
+const port = 8080;
+app.listen(port, () => {
+  console.log(`Server running on port ${port}`);
 });
